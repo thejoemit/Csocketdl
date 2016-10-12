@@ -21,3 +21,12 @@ The Server is running in a finite state waiting for incoming TCP connections.
       |   <PSH,ACK    |     Seq=1      Ack=1       Len=x1     *x1 is number of char in array for filename
       |     ACK>      |     Seq=1      Ack=x1+1    Len=0      *filename message acknowledge x1+1*
       |   PSH,ACK>    |     Seq=1      Ack=x1+1    Len=x2     *x2 is number of char in array for filename plus byte size
+      |     <ACK      |     Seq=x1+1   Ack=x2+1    Len=0      *filename and size message acknowledge x2+1*
+      |   PSH,ACK>    |     Seq=x2+1   Ack=x1+1    Len=x3     *x3 is file buffer writen upto 1024 byte size
+      |     <ACK      |     Seq=x1+1   Ack=x3+x2+1 Len=0      *filename and size message acknowledge x2+1*
+                                                -   +   -
+      |   PSH,ACK>    |     Seq=LAck   Ack=x1+1    Len=x4     *x4 is next part file buffer writen upto 1024 byte size
+      |     <ACK      |     Seq=x1+1   Ack=LAck+x4 Len=0      *filename and size message acknowledge x2+1*
+                                                -   +   -
+      |   <FIN,ACK    |     Seq=x1+1   Ack=LAck+x4 Len=0      *terminate tcp session
+      |     ACK>      |     Seq=LAck*  Ack=x1+2    Len=0      *terminate acknowledge
