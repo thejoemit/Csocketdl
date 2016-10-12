@@ -14,8 +14,8 @@ A Client/Server TCP socket based remote file downloader writen in C. This code w
 
 The Server is running in a finite state waiting for incoming TCP connections.
 
-SERVER          CLIENT
-    |     <SYN      |
-    |   SYN/ACK>    |
-    |     ACK>      |
-    |               |
+    SERVER          CLIENT
+      |     <SYN      |
+      |   SYN/ACK>    |
+      |     ACK>      |
+      |               |
