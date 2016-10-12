@@ -11,13 +11,14 @@ A Client/Server TCP socket based remote file downloader writen in C. This code w
     ./Client {server-ip} {server-port} {filename}
 
 # Protocol
-Example 1: The Server is running in a finite state waiting for incoming TCP connections when the client is launched pointed at a file that exists on the server.
+Example 1: The Server is running in a finite state waiting for incoming TCP connections when the client is launched pointed at a file that exists on the server. Packet exchanges are depicted in "File Found Transaction"
+
 * The session is established, then the client writes the filename character array to the server socket. 
 * The server will then write to the client socket the filename and the size in bytes. 
 * The server will push all the bytes of the file to the client socket untile the end of file is reached then it will wait. 
 * The client will write the recieved data on the socket to a file until it has reached the intended size, then it will terminate the tcp session.
 
-# Transaction
+# File Found Transaction
     SERVER          CLIENT
       |     <SYN      |     Seq=0      Len=0
       |   SYN/ACK>    |     Seq=0      Ack=1       Len=0
@@ -34,3 +35,12 @@ Example 1: The Server is running in a finite state waiting for incoming TCP conn
                                                 -   +   -
       |   <FIN,ACK    |     Seq=x1+1   Ack=LAck+x4 Len=0      *terminate tcp session
       |     ACK>      |     Seq=LAck*  Ack=x1+2    Len=0      *terminate acknowledge
+
+# Creative Commons License
+This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+
+You accept and agree to be bound by the terms and conditions of this Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License ("Public License"). To the extent this Public License may be interpreted as a contract, You are granted the Licensed Rights in consideration of Your acceptance of these terms and conditions, and the Licensor grants You such rights in consideration of benefits the Licensor receives from making the Licensed Material available under these terms and conditions.
+
+You may read the summarized license at: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+You may read the full license at: https://github.com/thejoemit/webauditing/blob/master/LICENSE.md
