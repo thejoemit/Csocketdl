@@ -3,12 +3,12 @@ A Client/Server TCP socket based remote file downloader writen in C. This code w
 
 # Compile
 
-gcc -pthread server.c -o Server
-gcc client.c -o Client
+  gcc -pthread server.c -o Server
+  gcc client.c -o Client
 
 # Usage
 
-./Server {port-number}
-./Client {server-ip} {server-port} {filename}
+  ./Server {port-number}
+  ./Client {server-ip} {server-port} {filename}
 
 # Protocol
