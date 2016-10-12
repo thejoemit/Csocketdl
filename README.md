@@ -62,4 +62,4 @@ You accept and agree to be bound by the terms and conditions of this Creative Co
 
 You may read the summarized license at: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
-You may read the full license at: https://github.com/thejoemit/webauditing/blob/master/LICENSE.md
+You may read the full license at: https://github.com/thejoemit/Csocketdl/blob/master/LICENSE.md
