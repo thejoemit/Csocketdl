@@ -1,12 +1,18 @@
 # Csocketdl
 A Client/Server TCP socket based remote file downloader writen in C. This code was created for submission to Assignment1 for NET4005 at Carleton University in Fall 2016.
 
-Example 1: The Server is running in a finite state waiting for incoming TCP connections when the client is launched pointed at a file that exists on the server. Packet exchanges are depicted in "File Found Transaction"
+Example 1: The Server is running in a finite state waiting for incoming TCP connections when the client is launched pointed at a file that exists on the server. Packet exchanges are depicted in "Protocol - File Found"
 
 * The session is established, then the client writes the filename character array to the server socket. 
 * The server will then write to the client socket the filename and the size in bytes. 
 * The server will push all the bytes of the file to the client socket untile the end of file is reached then it will wait. 
 * The client will write the recieved data on the socket to a file until it has reached the intended size, then it will terminate the tcp session.
+
+Example 2: The Server is running in a finite state waiting for incoming TCP connections when the client is launched pointed at a file that does not exists on the server. Packet exchanges are depicted in "Protocol - File Not Found"
+
+* The session is established, then the client writes the filename character array to the server socket. 
+* The server will then write to the client socket the 404 message
+* The client will terminate the tcp session.
 
 # Compile/Usage
     gcc -pthread server.c -o Server
@@ -14,8 +20,7 @@ Example 1: The Server is running in a finite state waiting for incoming TCP conn
     ./Server {port-number}
     ./Client {server-ip} {server-port} {filename}
 
-# Protocol
-   File Found Transaction
+# Protocol - File Found
                                            
         SERVER          CLIENT
          |     <SYN      |     Seq=0      Len=0
@@ -34,7 +39,18 @@ Example 1: The Server is running in a finite state waiting for incoming TCP conn
          |   <FIN,ACK    |     Seq=x1+1   Ack=LAck+x4 Len=0      *terminate tcp session
          |     ACK>      |     Seq=LAck*  Ack=x1+2    Len=0      *terminate acknowledge
     
-    File Not Found Transaction
+# Protocol - File Not Found
+    
+       SERVER          CLIENT
+         |     <SYN      |     Seq=0      Len=0
+         |   SYN/ACK>    |     Seq=0      Ack=1       Len=0
+         |     ACK>      |     Seq=1      Ack=1       Len=0      *Stream-Start*
+         |   <PSH,ACK    |     Seq=1      Ack=1       Len=x1     *x1 is number of char in array for filename
+         |     ACK>      |     Seq=1      Ack=x1+1    Len=0      *filename message acknowledge x1+1*
+         |   PSH,ACK>    |     Seq=1      Ack=x1+1    Len=3      *file not found - 404 message
+         |     <ACK      |     Seq=x1+1   Ack=4       Len=0      *filename and size message acknowledge x2+1*
+         |   <FIN,ACK    |     Seq=x1+1   Ack=4       Len=0      *terminate tcp session
+         |     ACK>      |     Seq=4      Ack=x1+2    Len=0      *terminate acknowledge
     
 # Creative Commons License
 This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
