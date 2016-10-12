@@ -1,6 +1,13 @@
 # Csocketdl
 A Client/Server TCP socket based remote file downloader writen in C. This code was created for submission to Assignment1 for NET4005 at Carleton University in Fall 2016.
 
+Example 1: The Server is running in a finite state waiting for incoming TCP connections when the client is launched pointed at a file that exists on the server. Packet exchanges are depicted in "File Found Transaction"
+
+* The session is established, then the client writes the filename character array to the server socket. 
+* The server will then write to the client socket the filename and the size in bytes. 
+* The server will push all the bytes of the file to the client socket untile the end of file is reached then it will wait. 
+* The client will write the recieved data on the socket to a file until it has reached the intended size, then it will terminate the tcp session.
+
 # Compile
     gcc -pthread server.c -o Server
     gcc client.c -o Client
@@ -11,14 +18,7 @@ A Client/Server TCP socket based remote file downloader writen in C. This code w
     ./Client {server-ip} {server-port} {filename}
 
 # Protocol
-Example 1: The Server is running in a finite state waiting for incoming TCP connections when the client is launched pointed at a file that exists on the server. Packet exchanges are depicted in "File Found Transaction"
-
-* The session is established, then the client writes the filename character array to the server socket. 
-* The server will then write to the client socket the filename and the size in bytes. 
-* The server will push all the bytes of the file to the client socket untile the end of file is reached then it will wait. 
-* The client will write the recieved data on the socket to a file until it has reached the intended size, then it will terminate the tcp session.
-
-# File Found Transaction
+    File Found Transaction
     SERVER          CLIENT
       |     <SYN      |     Seq=0      Len=0
       |   SYN/ACK>    |     Seq=0      Ack=1       Len=0
