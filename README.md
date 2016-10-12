@@ -16,6 +16,7 @@ Example 1: The Server is running in a finite state waiting for incoming TCP conn
 * The server will then write to the client socket the filename and the size in bytes. 
 * The server will push all the bytes of the file to the client socket untile the end of file is reached then it will wait. 
 * The client will write the recieved data on the socket to a file until it has reached the intended size, then it will terminate the tcp session.
+sda
 
     SERVER          CLIENT
       |     <SYN      |     Seq=0      Len=0
