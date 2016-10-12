@@ -15,7 +15,9 @@ A Client/Server TCP socket based remote file downloader writen in C. This code w
 The Server is running in a finite state waiting for incoming TCP connections.
 
     SERVER          CLIENT
-      |     <SYN      |
-      |   SYN/ACK>    |
-      |     ACK>      |
-      |               |
+      |     <SYN      |     Seq=0      Len=0
+      |   SYN/ACK>    |     Seq=0      Ack=1       Len=0
+      |     ACK>      |     Seq=1      Ack=1       Len=0      *Stream-Start*
+      |   <PSH,ACK    |     Seq=1      Ack=1       Len=x1     *x1 is number of char in array for filename
+      |     ACK>      |     Seq=1      Ack=x1+1    Len=0      *filename message acknowledge x1+1*
+      |   PSH,ACK>    |     Seq=1      Ack=x1+1    Len=x2     *x2 is number of char in array for filename plus byte size
